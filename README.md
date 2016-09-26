@@ -88,7 +88,7 @@ Right now I haven't implemented these features yet, they will be available very 
 
 We can make calls to the API but how to receive a response? The plugin uses signals, one of the awesome features of Godot. Use the `connect()` function to connect a signal to a method. The full list of all available signals:
 
-* **api_authenticated** - emmited when the user is authnticated
+* **api_authenticated** - emmited when the user is authenticated
 * **api_user_fetched** - emmited when user's information has been fetched
 * **api_session_opened** - emmited when a session has been opened
 * **api_session_pinged** - emmited when a session has been pinged
