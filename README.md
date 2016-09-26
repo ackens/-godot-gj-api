@@ -1,7 +1,8 @@
 # GameJolt API plugin for Godot Engine
 ## How to install/setup
-Just download the repository and drop the **gamejolt_api** folder into your addons folder. Open the add node dialog and locate **GameJoltAPI** under the HTTPRequest node. A demo project showing some of the functions is next to the plugin folder. **Don't forget to fill the private key and your game id in the inspector**
+Just download the repository and drop the **gamejolt_api** folder into your addons folder. Open the add node dialog and locate **GameJoltAPI** under the HTTPRequest node. A demo project showing some of the functions is next to the plugin folder. **Don't forget to fill in the private key and game id fields in the inspector**
 
+![](http://imgur.com/od3ukvp.png!)
 
 ## How to use/methods description
 ### Authentication/users
@@ -37,7 +38,7 @@ BTW if you look at the official API docs you'll see that some calls to the api r
 
 ### Trophies aka achievements
 
-GameJolt has their achievements system so you can add trophies and players can achieve them! To fetch the list of trophies for a game, call:
+GameJolt has an achievements system so you can add trophies and players can achieve them! To fetch the list of trophies for a game, call:
 
 `fetch_trophies(achieved="", trophy_ids="")`
 * achieved - if you leave this blank, all throphies will be fetched, passing true will return only the achieved trophies while passing false return only unachieved trophies
