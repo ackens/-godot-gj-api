@@ -86,7 +86,7 @@ Right now I haven't implemented these features yet, they will be available very 
 
 ### How to receive the API responses?
 
-We can make calls to the API but how to receive a response? The plugin uses signals, one of the awesome features of Godot. Use the `connect()` function to connect a signal to a method. The full list of all available signals:
+We can make calls to the API but how to receive a response? The plugin uses signals, one of the awesome features of Godot. Use the `connect()` function to connect a signal to a method. Each signal carries the "data" argument which is the response from the API. The full list of all available signals:
 
 * **api_authenticated** - emmited when the user is authenticated
 * **api_user_fetched** - emmited when user's information has been fetched
@@ -99,4 +99,4 @@ We can make calls to the API but how to receive a response? The plugin uses sign
 * **api_score_added** - emmited when scores have been added to a score table
 * **api_tables_fetched** - emmited when score tables have been fetched
 
-Example: `get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")`
+Example: `get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")`. And your functions look like this: `func on_autheticated(response):`
