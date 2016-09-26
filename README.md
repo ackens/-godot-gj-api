@@ -7,13 +7,13 @@ Just download the repository and drop the **gamejolt_api** folder into your addo
 ## How to use/methods description
 ### Authentication/users
 Before doing any calls to the API you must authenticate a user first so the system knows what user to work with.
-A method to do it is provided:
+A method to do it is provided: :)
 
 `auth_user(token, username)`
 * token - your gamejolt token (NOT your password)
 * username - your gamejolt username, duh
 
-Now you can use other api methods. The api allows you to fetch user's information like their username, description and so on. You can use on of two provided methods:
+Now you can use other api methods. The api allows you to fetch user's information like their username, description and so on. You can use one of two provided methods:
 
 `fetch_user_by_name(username)`
 * username - name of the user you want to fetch
