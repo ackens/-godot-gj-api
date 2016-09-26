@@ -1,6 +1,6 @@
 # GameJolt API plugin for Godot Engine
 ## How to install/setup
-Just download the repository and drop the **gamejolt_api** folder into your addons folder. Open the add node dialog and locate **GameJoltAPI** under the HTTPRequest node. A demo project showing some of the functions is next to the plugin folder. **Don't forget to fill in the private key and game id fields in the inspector**
+Drop the **gamejolt_api** folder into your addons folder. Open the add node dialog and locate **GameJoltAPI** under the HTTPRequest node. A demo project showing some of the functions is next to the plugin folder. **Don't forget to fill in the private key and game id fields in the inspector**
 
 ![](http://imgur.com/od3ukvp.png!)
 
