@@ -34,8 +34,6 @@ If the player wants to quit the game you might want to close the current session
 
 `close_session()`
 
-BTW if you look at the official API docs you'll see that some calls to the api require to pass a username and a token and the plugin methods don't. The plugin caches them so you don't need to pass them everytime. No worries!
-
 ### Trophies aka achievements
 
 GameJolt has an achievements system so you can add trophies and players can achieve them! To fetch the list of trophies for a game, call:
