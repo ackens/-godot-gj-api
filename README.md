@@ -79,3 +79,7 @@ Scores can be added as guest:
 A list of the scoreboards can be fetched with this method:
 
 `fetch_tables()`
+
+### Data store
+
+Right now I haven't implemented these features yet, they will be available very soon.
