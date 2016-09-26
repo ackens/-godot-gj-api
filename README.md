@@ -7,13 +7,13 @@ Just download the repository and drop the **gamejolt_api** folder into your addo
 ## How to use/methods description
 ### Authentication/users
 Before doing any calls to the API you must authenticate a user first so the system knows what user to work with.
-A method to do it is provided: :)
+A method to do it is provided:
 
 `auth_user(token, username)`
 * token - your gamejolt token (NOT your password)
 * username - your gamejolt username, duh
 
-Now you can use other api methods. The api allows you to fetch user's information like their username, description and so on. You can use one of two provided methods:
+Now you can user the rest of the API. The API allows you to fetch user's information like their username, description and so on. You can use one of two provided methods:
 
 `fetch_user_by_name(username)`
 * username - name of the user you want to fetch
@@ -53,7 +53,7 @@ GameJolt also features the scoreboards system. To fetch the scores use this meth
 
 `fetch_scores(limit="", table_id="")`
 * limit - how many scores to return. Default is 10, max is 100
-* table_id - pass this if you want scores from a specified table. Scores from the primary scoreboard are returned otherwise.
+* table_id - pass this if you want scores from a specified table. Scores from the primary score table are returned otherwise.
 
 To fetch scores only of the currently logged in user use this method:
 
@@ -76,7 +76,7 @@ Scores can be added as guest:
 * guest - name of the guest
 * table_id - The id of the high score table that you want to submit to. If left blank the score will be submitted to the primary high score table.
 
-A list of the scoreboards can be fetched with this method:
+A list of the score tables can be fetched with this method:
 
 `fetch_tables()`
 
@@ -98,3 +98,5 @@ We can make calls to the API but how to receive a response? The plugin uses sign
 * **api_score_fetched** - emmited when scores have been fetched
 * **api_score_added** - emmited when scores have been added to a score table
 * **api_tables_fetched** - emmited when score tables have been fetched
+
+Example: get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")
