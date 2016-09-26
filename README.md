@@ -32,7 +32,7 @@ If the player wants to quit the game you might want to close the current session
 
 `close_session()`
 
-If you look up these calls in the official API docs you'll see that these methods require to pass a username and a token. The plugin caches them so you don't need to pass them everytime. No worries!
+BTW if you look at the official API docs you'll see that some calls to the api require to pass a username and a token and the plugin methods don't. The plugin caches them so you don't need to pass them everytime. No worries!
 
 ### Trophies aka achievements
 
