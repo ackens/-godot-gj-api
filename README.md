@@ -9,5 +9,5 @@ A method to do it is provided:
 
 **auth_user(token, username)**
 
-*token - your gamejolt user token(NOT your password)
-username - your username*
+*token - your gamejolt user token(NOT your password)*
+*username - your username*
