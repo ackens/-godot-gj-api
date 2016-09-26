@@ -86,6 +86,17 @@ A list of the scoreboards can be fetched with this method:
 
 Right now I haven't implemented these features yet, they will be available very soon.
 
-### How to parse the API responses?
+### How to receive the API responses?
 
-API responses use the json format and are not pre-parsed or modified before sending them with the signals so the Dictionary class can be used to parse them.
+We can make calls to the API but how to receive a response? The plugin uses signals, one of the awesome features of Godot. Use the `connect()` function to connect a signal to a method. The full list of all available signals:
+
+* **api_authenticated** - emmited when the user is authnticated
+* **api_user_fetched** - emmited when user's information has been fetched
+* **api_session_opened** - emmited when a session has been opened
+* **api_session_pinged** - emmited when a session has been pinged
+* **api_session_closed** - emmited when a session has been closed
+* **api_trophy_fetched** - emmited when trophies have been fetched
+* **api_trophy_added** - emmited when a trophy has been set as achieved
+* **api_score_fetched** - emmited when scores have been fetched
+* **api_score_added** - emmited when scores have been added to a score table
+* **api_tables_fetched** - emmited when score tables have been fetched
