@@ -45,7 +45,7 @@ GameJolt has an achievements system so you can add trophies and players can achi
 To set a trophy as achieved, call this:
 
 `add_trophy(trophy_id)`
-* trophy_id - the id of the trophy. Found on the game's trophies section
+* trophy_id - the id of the trophy. Found in the game's trophies section
 
 ### Scores
 
