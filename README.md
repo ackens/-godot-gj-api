@@ -34,7 +34,7 @@ If the player wants to quit the game you might want to close the current session
 
 `close_session()`
 
-### Trophies aka achievements
+### Trophies a.k.a achievements
 
 GameJolt has an achievements system so you can add trophies and players can achieve them! To fetch the list of trophies for a game, call:
 
