@@ -8,7 +8,7 @@ Before doing any calls to the API you must authenticate a user first so the syst
 A method to do it is provided:
 
 `auth_user(token, username)`
-* token - your gamejolt token(NOT your password)
+* token - your gamejolt token (NOT your password)
 * username - your gamejolt username, duh
 
 Now you can use other api methods. The api allows you to fetch user's information like their username, description and so on. You can use on of two provided methods:
@@ -83,3 +83,7 @@ A list of the scoreboards can be fetched with this method:
 ### Data store
 
 Right now I haven't implemented these features yet, they will be available very soon.
+
+### How to parse the API responses?
+
+API responses use the json format and are not pre-parsed or modified before sending them with the signals so the Dictionary class can be used to parse them.
