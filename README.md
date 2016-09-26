@@ -99,4 +99,4 @@ We can make calls to the API but how to receive a response? The plugin uses sign
 * **api_score_added** - emmited when scores have been added to a score table
 * **api_tables_fetched** - emmited when score tables have been fetched
 
-Example: get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")
+Example: `get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")`
