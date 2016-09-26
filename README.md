@@ -8,4 +8,13 @@ Before doing any calls to the API you must authenticate a user first so the syst
 A method to do it is provided:
 
 `auth_user(token, username)`
-* token
+* token - your gamejolt token(NOT your password)
+* username - your gamejolt username, duh
+
+Now you can use other api methods. The api allows you to fetch user's information like their username, description and so on. You can use on of two provided methods:
+
+`fetch_user_by_name(username)`
+* username - name of the user you want to fetch
+
+`fetch_user_by_id(user_id)`
+* user_id - id of the user you want to fetch
