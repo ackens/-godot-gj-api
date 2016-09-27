@@ -13,7 +13,7 @@ A method to do it is provided:
 * token - your gamejolt token (NOT your password)
 * username - your gamejolt username, duh
 
-Now you can use the rest of the API. The API allows you to fetch user's information like their username, description and so on. You can use one of two provided methods:
+Now you can use the rest of the API. The API allows you to fetch user's information like their username, description and so on. You can use one of the two provided methods:
 
 `fetch_user_by_name(username)`
 * username - name of the user you want to fetch
