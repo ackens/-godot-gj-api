@@ -39,7 +39,7 @@ If the player wants to quit the game you might want to close the current session
 GameJolt has an achievements system so you can add trophies and players can achieve them! To fetch the list of trophies for a game, call:
 
 `fetch_trophies(achieved="", trophy_ids="")`
-* achieved - if you leave this blank, all throphies will be fetched, passing true will return only the achieved trophies while passing false return only unachieved trophies
+* achieved - if you leave this blank, all throphies will be fetched, passing true will return only the achieved trophies while passing false will return only unachieved trophies
 * trophy_ids - if you pass this, only trophies with the specified ids will be fetched. You can pass multiple ids separated by a comma 1,2,3,4. If this option is passed, the first one is ignored
 
 To set a trophy as achieved, call this:
