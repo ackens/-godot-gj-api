@@ -100,3 +100,9 @@ We can make calls to the API but how to receive a response? The plugin uses sign
 * **api_tables_fetched** - emmited when score tables have been fetched
 
 Example: `get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")`. And your functions look like this: `func on_autheticated(response):`
+
+Additional functions:
+
+`get_username()` - returns username of the logged in user
+
+`get_token()` - returns token of the logged in user
