@@ -1,0 +1,72 @@
+[gd_scene format=1]
+
+[node name="trophy_panel" type="Panel"]
+
+rect/min_size = Vector2( 260, 45 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 200.0
+margin/bottom = 45.0
+
+[node name="trophy_icon" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 36.0
+margin/bottom = 38.0
+stretch_mode = 0
+
+[node name="name" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 40.0
+margin/top = 3.0
+margin/right = 308.0
+margin/bottom = 17.0
+text = "Whoa"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="difficulty" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 40.0
+margin/top = 16.0
+margin/right = 308.0
+margin/bottom = 30.0
+text = "Difficulty: bronze"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="desc" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 40.0
+margin/top = 30.0
+margin/right = 308.0
+margin/bottom = 44.0
+text = "You can count"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+
