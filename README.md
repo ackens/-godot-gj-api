@@ -82,7 +82,76 @@ A list of the score tables can be fetched with this method:
 
 ### Data store
 
-Right now I haven't implemented these features yet, they will be available very soon.
+Data store allows the developer to store strings, floats and other types of data on GameJolt servers. A chunk of data is stored in a **key**. To create a new data key and store something there call this method:
+
+`data_store_set(key, data)`
+* key - name of the key
+* whatever you want to store in the key(string, float, integer etc)
+
+To store data only for the user:
+
+`data_store_set_for_user(key, data)`
+* key - name of the key
+* whatever you want to store in the key(string, float, integer etc)
+
+To fetch the contents of a key call this:
+
+`data_store_fetch(key)`
+* key - the key to fetch data from
+
+To fetch data only for the user:
+
+`data_store_fetch_for_user(key)`
+* key - the key to fetch data from
+
+You can update a key, strings can be appended and prepended to and numbers can be added, subtracted, multiplied and divided. Update a key with the following method:
+
+`data_store_update(key, operation, value)`
+* key - name of the key you want to update
+* operation - can be "add", "subtract", "multiply", "divide", "append", "prepend"
+* value that the key will be updated with
+
+To update a key only for the user:
+
+`data_store_update_for_user(key, operation, value)`
+* key - name of the key you want to update
+* operation - can be "add", "subtract", "multiply", "divide", "append", "prepend"
+* value that the key will be updated with
+
+To remove a key and therefore it's contents:
+
+`data_store_remove(key)`
+* key - name of the key you want to remove
+
+To remove a key for the user:
+
+`data_store_remove_for_user(key)`
+* key - name of the key you want to remove
+
+To fetch the list of all keys call this:
+
+`data_store_get_keys()`
+
+To fetch keys only for the user:
+
+`data_store_get_keys_for_user()`
+
+### Additional functions
+
+I implemented some useful things apart from the main API to make life a little easier.
+
+Trophies can include an optional image which is displayed on the site in the "Trophies" section. It may be desired to download them and use in-game trophies wall, for example. It can be done with the call of this method:
+
+`download_trophies_icons(api_trophies_json, output_folder="user://")`
+* api_trophies_json - that string output by the `fetch_trophies()` call. It will be parsed for the URLs and the download will start. The signal `got_trophy_icon(icon_path, trophy_info_json)` is emmited when an icon has been downloaded and therefore triggers for each icon. The first argument is the icon's path and the second is its data as a json string.
+* output_folder - where the icons will be downloaded to.
+
+The same is for user avatars but this time it's a different method:
+
+`download_user_avatar(api_user_json, output_folder="user://")`
+* api_user_json = the string output by the `fetch_user_by_name/id()` call. It will be parsed for the URL and the download will start. The signal `got_user_avatar(path)` is emmited when the avatar has been downloaded. The first argument is the avatar's path.
+* output_folder - where the image will be downloaded to.
+
 
 ### How to receive the API responses?
 
@@ -101,7 +170,7 @@ We can make calls to the API but how to receive a response? The plugin uses sign
 
 Example: `get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")`. And your functions look like this: `func on_autheticated(response):`
 
-Additional functions:
+Moar functions:
 
 `get_username()` - returns username of the logged in user
 
