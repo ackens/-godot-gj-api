@@ -1,178 +1,151 @@
-# The v2 version is here, will be documented later. Hasn't been throughly tested yet. Contents of README are for the old version.
-# GameJolt API plugin for Godot Engine
-## How to install/setup
-Drop the **gamejolt_api** folder into your addons folder. Open the add node dialog and locate **GameJoltAPI** under the HTTPRequest node. A demo project showing some of the functions is next to the plugin folder. **Don't forget to fill in the private key and game id fields in the inspector**
+# GameJolt API plugin for Godot Engine.
 
-![](http://imgur.com/od3ukvp.png!)
+## About
+The plugin has been rewritten! New features include:
+* Parameters to the api calls can be passed both as strings and numbers
+* Rewritten from ground up, thus smaller main plugin script
+* Some functions have been merged
+* URLs are now percent encoded
 
-## How to use/methods description
-### Authentication/users
-Before doing any calls to the API you must authenticate a user so the system knows what user to work with.
-A method to do it is provided:
+# Methods description
 
-`auth_user(token, username)`
-* token - your gamejolt token (NOT your password)
-* username - your gamejolt username, duh
+## Authentication and users
+**Before doing calls that deal with users in one way or another, you must authenticate a user to ensure that the username-token pair is valid.**
 
-Now you can use the rest of the API. The API allows you to fetch user's information like their username, description and so on. You can use one of the two provided methods:
+`auth_user(token, username)` - authenticates the user with the given credentials
+* token - your gamejolt token (not your password)
+* username - your gamejolt username
 
-`fetch_user_by_name(username)`
-* username - name of the user you want to fetch
+Signal: `api_authenticated(success)`
 
-`fetch_user_by_id(user_id)`
-* user_id - id of the user you want to fetch. Multiple ids allowed, comma-separated 1,2,3,4
+**When you've successfully authenticated the user, you can do a lot of cool things. For example, you can fetch a user's information.**
 
-### Sessions
-Sessions are used to tell the system that someone's playing the game and to collect stats about the average game time, number of sessions... To open a session use the respective method:
+`fetch_user(username='', id=0):` - outputs a user's information
+* username - name of the user, whose information you'd like to fetch
+* id - id of the user, whose information you'd like to fetch
 
-`open_session()`
+You don't need to pass both arguments, but at least one argument must be passed! When using ids, multiple ids can be passed, like this: '1,2,3,4'
 
-A session is closed within 120 seconds if not pinged. Ping your session to prevent the system from cleaning it up with the following method:
+Signal: `api_user_fetched(data)`
+## Sessions
+**Sessions are used to tell gamejolt that someone's playing your game. Opening a session is easy.**
 
-`ping_session()`
+`open_session()` - opens a session
 
-If the player wants to quit the game you might want to close the current session. Use this method to close the active session:
+Piece of cake! If there's an active session, it will close it and open a new one.
 
-`close_session()`
+Signal: `api_session_opened(success)`
 
-### Trophies a.k.a achievements
+**A session is closed after 120 seconds if not pinged. You have to ping the session to prevent it from closing.**
 
-GameJolt has an achievements system so you can add trophies and players can achieve them! To fetch the list of trophies for a game, call:
+`ping_session()` - pings a session
 
-`fetch_trophies(achieved="", trophy_ids="")`
-* achieved - if you leave this blank, all throphies will be fetched, passing true will return only the achieved trophies while passing false will return only unachieved trophies
-* trophy_ids - if you pass this, only trophies with the specified ids will be fetched. You can pass multiple ids separated by a comma 1,2,3,4. If this option is passed, the first one is ignored
+Usually a timer that pings the session every 60 seconds will do the trick.
 
-To set a trophy as achieved, call this:
+Signal: `api_session_pinged(success)`
 
-`add_trophy(trophy_id)`
-* trophy_id - the id of the trophy. Found in the game's trophies section
+**When the player quits the game, the session should be closed.**
 
-### Scores
+`close_session()` - closes the active session
 
-GameJolt also features the scoreboards system. To fetch the scores use this method:
+If the game is closed, the session will be closed automatically anyway since it's not being pinged, but it's better to close it manually with this method, just in case.
 
-`fetch_scores(limit="", table_id="")`
-* limit - how many scores to return. Default is 10, max is 100
-* table_id - pass this if you want scores from a specified table. Scores from the primary score table are returned otherwise.
+Signal: `api_session_closed(success)`
+## Trophies a.k.a achievements
+**Trophies are basically achievements, nothing unusual. Fetching a list of trophies, just one trophy, only achieved trophies or only the unachieved trophies is done through this supermethod.**
 
-To fetch scores only of the currently logged in user use this method:
+`fetch_trophy(achieved='', trophy_ids=0)` - fetches trophies
+* achieved - leave blank to extarct all trophies, "true" to extract only trophies that the user has already achieved and "false" to get only unachieved trophies
+* trophy_ids - pass a trophy id to extract the specific trophy or a set of trophy ids to get a list of trophies, like this: '1,2,3,4'
 
-`fetch_scores_for_user(limit="", table_id="")`
-* limit - how many scores to return. Default is 10, max is 100
-* table_id - pass this if you want scores from a specified table. Scores from the primary scoreboard are returned otherwise.
+If the second parameter is passed, the first one is ignored!
 
-To add a score for the user use this method:
+Signal: `api_trophy_fetched(data)`
 
-`add_score_for_user(score, sort, table_id="")`
-* score - a string value associated with the score. Example: "234 Jumps".
-* sort - a numerical sorting value associated with the score. All sorting will work off of this number. Example: "234". 
-* table_id - The id of the high score table that you want to submit to. If left blank the score will be submitted to the primary high score table.
+**To set a trophy as achieved.**
 
-Scores can be added as guest:
+`set_trophy_achieved(trophy_id)` - sets the trophy as achieved
+* trophy_id - id of the trophy to set as achieved
 
-`add_score_for_guest(score, sort, guest, table_id="")`
-* score - a string value associated with the score. Example: "234 Jumps".
-* sort - a numerical sorting value associated with the score. All sorting will work off of this number. Example: "234".
-* guest - name of the guest
-* table_id - The id of the high score table that you want to submit to. If left blank the score will be submitted to the primary high score table.
+Signal: `api_trophy_set_achieved(success)`
 
-A list of the score tables can be fetched with this method:
+## Scores
+**Scoreboards are another important part of the api. Extracting scores for the game is straightforward.**
 
-`fetch_tables()`
+`fetch_scores(username='', token='', limit=0, table_id=0)` - fetches scores for the game
+* username and token - only pass these parameters if you'd like to fetch scores for the user. Leaving them blank will retrieve scores globally
+* limit - how many scores to return. The default value is 10, the max is 100
+* table_id - what table to extract scores from. Leaving it blank will extract scores from the main table
 
-### Data store
+Only pass the parameters you need! If you want scores globally for the game, leave username and token blank! If you want scores from the main scoreboard, leave table_id blank and so on...
 
-Data store allows the developer to store strings, floats and other types of data on GameJolt servers. A chunk of data is stored in a **key**. To create a new data key and store something there call this method:
+Signal: `api_scores_fetched(data)`
 
-`data_store_set(key, data)`
-* key - name of the key
-* whatever you want to store in the key(string, float, integer etc)
+**Being able to fetch scores is nice, but firstly we need to populate scoreboards with the actual score entries!**
 
-To store data only for the user:
+`add_score(score, sort, username='', token='', guest='', table_id=0)` - adds a score to a table
+* score - string assotiated with the score. For instance: "124 Jumps"
+* sort - the actual score value. For example: 124
+* username and token - only pass these parameters if you'd like to add scores for the user. If you leave them blank, the "guest" parameter must be passed
+* guest - only pass this parameter if you'd like to store a score as a guest. If you leave this blank, "username" and "token" parameters must be passed
+* table_id - what table to submit scores to. If left blank, the score will be submitted to the main table
 
-`data_store_set_for_user(key, data)`
-* key - name of the key
-* whatever you want to store in the key(string, float, integer etc)
+Signal: `api_scores_added(success)`
 
-To fetch the contents of a key call this:
+**If you need to know what scoreboards are there, call this method.**
 
-`data_store_fetch(key)`
-* key - the key to fetch data from
+`fetch_tables()` - returns a list of all scoreboards
 
-To fetch data only for the user:
+Signal: `api_tables_fetched(data)`
 
-`data_store_fetch_for_user(key)`
-* key - the key to fetch data from
+## Data storage
+**GameJolt allows you to store data...in the *cloud*! To store some data in the cloud call this method.**
 
-You can update a key, strings can be appended and prepended to and numbers can be added, subtracted, multiplied and divided. Update a key with the following method:
+`set_data(key, data, username='', token='')` - stores data in the cloud
+* key - a piece of data is stored in a *key*, this is the name of the key
+* data - what you want to store in the key
+* username and token - only pass these parameters if you want to store the data for the user
 
-`data_store_update(key, operation, value)`
-* key - name of the key you want to update
-* operation - can be "add", "subtract", "multiply", "divide", "append", "prepend"
-* value that the key will be updated with
+Data can be strings, integers, floats...anything
 
-To update a key only for the user:
+Signal: `api_data_set(success)`
 
-`data_store_update_for_user(key, operation, value)`
-* key - name of the key you want to update
-* operation - can be "add", "subtract", "multiply", "divide", "append", "prepend"
-* value that the key will be updated with
+**Fetching data from a key is easy too.**
 
-To remove a key and therefore it's contents:
+`fetch_data(key, username='', token='')` - fetches data from the key
+* key - key to fetch data from
+* username and token - only pass these parameters if you want data from the user
 
-`data_store_remove(key)`
-* key - name of the key you want to remove
+Signal: `api_data_fetched(data)`
 
-To remove a key for the user:
+**Everything changes. The data in a key changes too when you update it with this method.**
 
-`data_store_remove_for_user(key)`
-* key - name of the key you want to remove
+`update_data(key, operation, value, username='', token='')` - updates data in the key
+* key - key, whose data will be updated
+* operation - what kind of operation to perform on the data. String can be prepended and appended to. Numbers can be divided, multiplied, added to and subtracted from. Use one of these: "append", "prepend", "divide", "multiply", "add", "subtract"
+* value = value that will be used in the operation
+* username and token - only pass these parameters if you want to update the user's data. Otherwise it will be updated globally for the game
 
-To fetch the list of all keys call this:
+Signal: `api_data_updated(new_data)`
 
-`data_store_get_keys()`
+**One day, you might want to remove a key. Fortunately, that's totally possible! Just one call and the key is erased from existence!**
 
-To fetch keys only for the user:
+`remove_data(key, username='', token='')` - removes a key
+* key - what key to remove
+* username and token - only pass these parameters if you want to remove the key for the user
 
-`data_store_get_keys_for_user()`
+Signal: `api_data_removed(success)`
 
-### Additional functions
+**Obtaining a list of all data keys is totally possible too!**
 
-I implemented some useful things apart from the main API to make life a little easier.
+`get_data_keys(username='', token='')` - return a list of all keys
+* username and token - only pass these parameters if you want to get list of keys for the user
 
-Trophies can include an optional image which is displayed on the site in the "Trophies" section. It may be desired to download them and use in-game trophies wall, for example. It can be done with the call of this method:
+Signal: `api_data_got_keys(data)`
 
-`download_trophies_icons(api_trophies_json, output_folder="user://")`
-* api_trophies_json - that string output by the `fetch_trophies()` call. It will be parsed for the URLs and the download will start. The signal `got_trophy_icon(icon_path, trophy_info_json)` is emmited when an icon has been downloaded and therefore triggers for each icon. The first argument is the icon's path and the second is its data as a json string.
-* output_folder - where the icons will be downloaded to.
+# Additional methods
 
-The same is for user avatars but this time it's a different method:
+* get_username() - returns username
+* get_user_token() - return the user's token
 
-`download_user_avatar(api_user_json, output_folder="user://")`
-* api_user_json = the string output by the `fetch_user_by_name/id()` call. It will be parsed for the URL and the download will start. The signal `got_user_avatar(path)` is emmited when the avatar has been downloaded. The first argument is the avatar's path.
-* output_folder - where the image will be downloaded to.
-
-
-### How to receive the API responses?
-
-We can make calls to the API but how to receive a response? The plugin uses signals, one of the awesome features of Godot. Use the `connect()` function to connect a signal to a method. Each signal carries the "data" argument which is the response from the API. The full list of all available signals:
-
-* **api_authenticated** - emmited when the user is authenticated
-* **api_user_fetched** - emmited when user's information has been fetched
-* **api_session_opened** - emmited when a session has been opened
-* **api_session_pinged** - emmited when a session has been pinged
-* **api_session_closed** - emmited when a session has been closed
-* **api_trophy_fetched** - emmited when trophies have been fetched
-* **api_trophy_added** - emmited when a trophy has been set as achieved
-* **api_score_fetched** - emmited when scores have been fetched
-* **api_score_added** - emmited when scores have been added to a score table
-* **api_tables_fetched** - emmited when score tables have been fetched
-
-Example: `get_node("GameJoltAPI").connect("one_of_the_above", self, "some_function")`. And your functions look like this: `func on_autheticated(response):`
-
-Moar functions:
-
-`get_username()` - returns username of the logged in user
-
-`get_token()` - returns token of the logged in user
+# Avatars-related fucntionality will be added later
