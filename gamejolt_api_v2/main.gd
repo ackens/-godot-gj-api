@@ -195,6 +195,14 @@ func compose_url(type, args):
 	print(final_url + '&signature=' + s)
 	return final_url + '&signature=' + s
 	pass
+	
+func get_username():
+	return username_cache
+	pass
+	
+func get_user_token():
+	return token_cache
+	pass
 
 func _on_HTTPRequest_request_completed( result, response_code, headers, body ):
 	busy = false
