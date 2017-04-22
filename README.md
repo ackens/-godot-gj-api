@@ -7,6 +7,8 @@
 * Some functions have been merged
 * URLs are now percent encoded
 
+The old plugin is still available with all of its documentation in this repository.
+
 **Installing**
 1. Download the repository
 2. Create the "addons" folder in the root (res://) of your project
