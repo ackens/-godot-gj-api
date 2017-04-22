@@ -148,4 +148,4 @@ Signal: `api_data_got_keys(data)`
 * get_username() - returns username
 * get_user_token() - return the user's token
 
-# Avatars-related fucntionality will be added later
+# Avatars-related functionality will be added later
