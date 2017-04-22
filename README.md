@@ -1,11 +1,25 @@
 # GameJolt API plugin for Godot Engine.
 
 ## About
-The plugin has been rewritten! New features include:
+**The plugin has been rewritten! New features include:**
 * Parameters to the api calls can be passed both as strings and numbers
 * Rewritten from ground up, thus smaller main plugin script
 * Some functions have been merged
 * URLs are now percent encoded
+
+**Installing**
+1. Download the repository
+2. Create the "addons" folder in the root (res://) of your project
+3. Copy the "gamejolt_api_v2" to that folder
+4. In the project settings, head to the "Plugins" tab and activate the plugin by changing its state from "Inactive" to "Active"
+5. Yay, you've installed the plugin!
+
+**Plugin's output**
+
+The gamejolt api outputs data as json strings. When requesting a lot of data, this string becomes quite large. The plugin could pre-parse this data in some way to give the user a nicely organized dictionary with the received data instead of just raw json string. But it doesn't. There is reasoning behind this:
+* Parsing raw json strings received from the api requires writing addotoinal code in the plugin
+* Most people will find this more preferable since different games deal with the received information in different ways and outputting raw json strings gives more freedom in manipulating that data than pre-parsing it before finally giving it to the user
+* Parsing json strings is very easy in Godot, so it's usually not a problem
 
 # Methods description
 
