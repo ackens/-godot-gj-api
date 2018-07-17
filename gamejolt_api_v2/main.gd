@@ -25,7 +25,7 @@ const PARAMETERS = {
 	get_data_keys = ['*username=', '*user_token=']
 }
 const BASE_URLS = { 
-	auth = 'http://gamejolt.com/api/game/v1/users/auth/',
+	auth = 'http://api.gamejolt.com/api/game/v1_2/users/auth/',
 	fetch_user = 'http://gamejolt.com/api/game/v1/users/',
 	session_open = 'http://gamejolt.com/api/game/v1/sessions/open/',
 	session_ping = 'http://gamejolt.com/api/game/v1/sessions/ping/',
@@ -185,10 +185,6 @@ func compose_url(type, args):
 			else:
 				var parameter = i.replace('*', '&')
 				final_url += parameter + str(args[c]).percent_encode()
-	if empty_counter == 0:
-		final_url += '?format=json'
-	else:
-		final_url += '&format=json'
 	final_url += '&game_id=' + str(game_id)
 	var s = final_url + private_key
 	s = s.md5_text()
