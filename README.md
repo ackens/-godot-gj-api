@@ -1,5 +1,7 @@
 # GameJolt API plugin for Godot Engine.
 
+This branch will be merged with master when the plugin is up-to-date with the 1.2 ver. of gamejolt api. The branch is unstable so use master please.
+
 ## About
 **The plugin has been rewritten! New features include:**
 * Parameters to the api calls can be passed both as strings and numbers
