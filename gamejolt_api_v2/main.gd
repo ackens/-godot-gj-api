@@ -16,14 +16,14 @@ const PARAMETERS = {
 	sessions = ['*username=', '*user_token='],
 	trophy_fetch = ['*username=', '*user_token=', '*achieved=', '*trophy_id='],
 	trophy_add = ['*username=', '*user_token=', '*trophy_id='],
-	scores_fetch = ['*username=', '*user_token=', '*limit=', '*table_id='],
+	scores_fetch = ['*username=', '*user_token=', '*limit=', '*table_id=', '*better_than=', '*worse_than='],
 	scores_add = ['*score=', '*sort=', '*username=', '*user_token=', '*guest=', '*table_id='],
 	fetch_tables = [],
 	fetch_data = ['*key=', '*username=', '*user_token='],
 	set_data = ['*key=', '*data=', '*username=', '*user_token='],
 	update_data = ['*key=', '*operation=', '*value=', '*username=', '*user_token='],
 	remove_data = ['*key='],
-	get_data_keys = ['*username=', '*user_token=']
+	get_data_keys = ['*username=', '*user_token=', '*pattern=']
 }
 const BASE_URLS = { 
 	auth = 'http://api.gamejolt.com/api/game/v1_2/users/auth/',
@@ -113,10 +113,10 @@ func set_trophy_achieved(trophy_id):
 	request(url)
 	pass
 	
-func fetch_scores(username='', token='', limit=0, table_id=0):
+func fetch_scores(username='', token='', limit=0, table_id=0, better_than=0, worse_than=0):
 	if busy: return
 	busy = true
-	var url = compose_url('scores_fetch/scores_fetch/scores_fetched', [username, token, limit, table_id])
+	var url = compose_url('scores_fetch/scores_fetch/scores_fetched', [username, token, limit, table_id, better_than, worse_than])
 	request(url)
 	pass
 	
@@ -162,10 +162,10 @@ func remove_data(key, username='', token=''):
 	request(url)
 	pass
 	
-func get_data_keys(username='', token=''):
+func get_data_keys(username='', token='', pattern=''):
 	if busy: return
 	busy = true
-	var url = compose_url('get_data_keys/get_data_keys/data_got_keys', [username, token])
+	var url = compose_url('get_data_keys/get_data_keys/data_got_keys', [username, token, pattern])
 	request(url)
 	pass
 	
