@@ -1,7 +1,7 @@
 extends HTTPRequest
 
 # GameJolt Godot plugin by Ackens https://github.com/ackens/-godot-gj-api
-# GameJolt API index page http://gamejolt.com/api/doc/game
+# GameJolt API index page https://gamejolt.com/game-api/doc
 
 export(String) var private_key
 export(String) var game_id
@@ -9,6 +9,7 @@ var username_cache
 var token_cache
 var request_type
 var busy = false
+export(bool) var debug_mode
 const PARAMETERS = {
 	auth = ['*user_token=', '*username='],
 	fetch_user = ['*username=', '*user_id='],
@@ -26,20 +27,20 @@ const PARAMETERS = {
 }
 const BASE_URLS = { 
 	auth = 'http://api.gamejolt.com/api/game/v1_2/users/auth/',
-	fetch_user = 'http://gamejolt.com/api/game/v1/users/',
-	session_open = 'http://gamejolt.com/api/game/v1/sessions/open/',
-	session_ping = 'http://gamejolt.com/api/game/v1/sessions/ping/',
-	session_close = 'http://gamejolt.com/api/game/v1/sessions/close/',
-	trophy = 'http://gamejolt.com/api/game/v1/trophies/',
-	trophy_add = 'http://gamejolt.com/api/game/v1/trophies/add-achieved/',
-	scores_fetch = 'http://gamejolt.com/api/game/v1/scores/',
-	scores_add = 'http://gamejolt.com/api/game/v1/scores/add/',
-	fetch_tables = 'http://gamejolt.com/api/game/v1/scores/tables/',
-	fetch_data = 'http://gamejolt.com/api/game/v1/data-store/',
-	set_data = 'http://gamejolt.com/api/game/v1/data-store/set/',
-	update_data = 'http://gamejolt.com/api/game/v1/data-store/update/',
-	remove_data = 'http://gamejolt.com/api/game/v1/data-store/remove/',
-	get_data_keys = 'http://gamejolt.com/api/game/v1/data-store/get-keys/'
+	fetch_user = 'http://api.gamejolt.com/api/game/v1_2/users/',
+	session_open = 'http://api.gamejolt.com/api/game/v1_2/sessions/open/',
+	session_ping = 'http://api.gamejolt.com/api/game/v1_2/sessions/ping/',
+	session_close = 'http://api.gamejolt.com/api/game/v1_2/sessions/close/',
+	trophy = 'http://api.gamejolt.com/api/game/v1_2/trophies/',
+	trophy_add = 'http://api.gamejolt.com/api/game/v1_2/trophies/add-achieved/',
+	scores_fetch = 'http://api.gamejolt.com/api/game/v1_2/scores/',
+	scores_add = 'http://api.gamejolt.com/api/game/v1_2/scores/add/',
+	fetch_tables = 'http://api.gamejolt.com/api/game/v1_2/scores/tables/',
+	fetch_data = 'http://api.gamejolt.com/api/game/v1_2/data-store/',
+	set_data = 'http://api.gamejolt.com/api/game/v1_2/data-store/set/',
+	update_data = 'http://api.gamejolt.com/api/game/v1_2/data-store/update/',
+	remove_data = 'http://api.gamejolt.com/api/game/v1_2/data-store/remove/',
+	get_data_keys = 'http://api.gamejolt.com/api/game/v1_2/data-store/get-keys/'
 }
 signal api_authenticated(success)
 signal api_user_fetched(data)
@@ -74,7 +75,6 @@ func fetch_user(username='', id=0):
 	if busy: return
 	busy = true
 	var url = compose_url('fetch_user/fetch_user/user_fetched', [username, id])
-	print([username, id])
 	request(url)
 	pass
 	
@@ -169,23 +169,26 @@ func get_data_keys(username='', token=''):
 	request(url)
 	pass
 	
-func compose_url(type, args):
+func compose_url(type, parameters):
 	var types = type.split('/')
 	request_type = types[2]
 	var final_url = BASE_URLS[types[1]]
 	var c = -1 # at this point of coding one of my earbuds died. one-eared music :(
-	var empty_counter = 0
+	var params_counter = 0
 	for i in PARAMETERS[types[0]]:
 		c += 1
-		if !str(args[c]).empty() and str(args[c]) != '0':
-			empty_counter += 1
-			if empty_counter == 1:
+		if !str(parameters[c]).empty() and str(parameters[c]) != '0':
+			params_counter += 1
+			if params_counter == 1:
 				var parameter = i.replace('*', '?')
-				final_url += parameter + str(args[c]).percent_encode()
+				final_url += parameter + str(parameters[c]).percent_encode()
 			else:
 				var parameter = i.replace('*', '&')
-				final_url += parameter + str(args[c]).percent_encode()
-	final_url += '&game_id=' + str(game_id)
+				final_url += parameter + str(parameters[c]).percent_encode()
+	if params_counter == 0:
+		final_url += '?game_id=' + str(game_id)
+	else:
+		final_url += '&game_id=' + str(game_id)
 	var s = final_url + private_key
 	s = s.md5_text()
 	print(final_url + '&signature=' + s)
